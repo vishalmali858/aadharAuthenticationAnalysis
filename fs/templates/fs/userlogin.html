@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    {% load staticfiles %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WELCOME USER | Analytics_KING</title>
+    <!-- Bootstrap Styles-->
+    <link href="{% static 'fs/assets/css/bootstrap.css' %}" rel="stylesheet" />
+
+    <!-- FontAwesome Styles-->
+    <link href="{% static 'fs/assets/css/font-awesome.css' %}" rel="stylesheet" />
+    <link href="{% static 'fs/loader.css' %}" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+
+    <script type="text/javascript" src="{% static 'fs/js/fusioncharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fs/js/themes/fusioncharts.theme.fusion.js' %}"></script>
+    <link href="{% static 'fs/assets/css/custom-styles.css' %}" rel="stylesheet" />
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+</head>
+<link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}" />
+
+</head>
+
+<body>
+    <div class="preloader">
+        <div class="sk-spinner sk-spinner-wave">
+            <div class="sk-rect1"></div>
+            <div class="sk-rect2"></div>
+            <div class="sk-rect3"></div>
+            <div class="sk-rect4"></div>
+            <div class="sk-rect5"></div>
+        </div>
+    </div>
+    </div>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand"><img src="{% static 'fs/images/logotext.png' %}"></div>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i>WELCOME USER:({{ user.username }})
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="{% url 'logout_user' %}" aria-expanded="false">
+                        <i class="fa fa-sign-out fa-fw"></i>Logout
+                    </a>
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation"><br><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="center"
+                src="{% static 'fs/images/logo1.png' %}" height="20%" width="50%"><br><br><br>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a class="active-menu" href="{% url 'user_view' user.username %}"><i class="fa fa-dashboard"></i>DASHBOARD</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'rl' user.username %}"><i class="fa fa-bar-chart-o"></i>Charts</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'ec' user.username %}"><i class="fa fa-compass"></i>ERROR-HANDLING</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'mp' user.username %}"><i class="fa fa-map-marker"></i>MAPS</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'up' user.username %}"><i class="fa fa-user"></i>USER PROFILE</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'rp' user.username %}"><i class="fa fa-lock"></i>CHANGE PASSWORD</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner">
+                <br><br><br>
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">User</li>
+                    </ol>
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            Users
+                        </h1>
+                    </div>
+
+                </div>
+                <!--/.row-->
+
+                <div class="row">
+                    {% for i,da in output.items %}
+                    <div class="col-md-4 col-sm-12 col-xs-12">
+                        {% if i == 1 %}
+                        <div class="panel panel-primary text-center no-boder bg-color-green">
+                            <div class="panel-left pull-left green">
+                                <i class="fa fa-bar-chart-o fa-5x"></i>
+                            </div>
+                            <div class="panel-right pull-right">
+                                <h3><span class='numscroller' data-min='1' data-max='{{ da | safe }}' data-delay='50'
+                                        data-increment='1000'>0</span></h3>
+                                <strong>TODAY'S TRANSACTION</strong>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% if i == 2 %}
+                        <a href="{% url 'ypdf' user.username %}" target="_blank">
+                            <div class="panel panel-primary text-center no-boder bg-color-blue">
+                                <div class="panel-left pull-left blue">
+                                    <i class="fa fa-bar-chart-o fa-5x"></i>
+                                </div>
+                                <div class="panel-right pull-right">
+                                    <h3><span class='numscroller' data-min='1' data-max='{{ da | safe }}'
+                                            data-delay='50' data-increment='1000'>0</span></h3>
+                                    <strong>YESTERDAY'S TRANSACTION</strong>
+                                </div>
+                            </div>
+                        </a>
+                        {% endif %}
+                        {% if i == 3 %}
+                        <a href="{% url 'mpdf' user.username %}" target="_blank">
+                            <div class="panel panel-primary text-center no-boder bg-color-brown">
+                                <div class="panel-left pull-left brown">
+                                    <i class="fa fa-bar-chart-o fa-5x"></i>
+
+                                </div>
+                                <div class="panel-right pull-right">
+                                    <h3><span class='numscroller' data-min='1' data-max='{{ da | safe }}'
+                                            data-delay='50' data-increment='10000'>0</span></h3>
+                                    <strong>MONTHLY TRANSACTION</strong>
+                                </div>
+                            </div>
+                        </a>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row">
+                    {% for i,da in output.items %}
+                    {% if i == 4 or i == 5 %}
+                    <div class="col-md-6 col-sm-6 col-xs-6">
+                        <div class="panel panel-primary">
+                            {% if i == 4 %}
+                            <div class="panel-heading">
+                                POSITIVE Authentication METER <b>(Monthly)</b>
+                            </div>
+                            <div class="panel-body" id="positive-meter">
+                                {{ da | safe }}
+                            </div>
+                            <div class="panel-footer">
+                                POSITIVE AUTHENTICATION
+                            </div>
+                            {% endif %}
+                            {% if i == 5 %}
+                            <div class="panel-heading">
+                                NEGATIVE Authentication METER <b>(Monthly)</b>
+                            </div>
+                            <div class="panel-body" id="negative-meter">
+                                {{ da | safe }}
+                            </div>
+                            <div class="panel-footer">
+                                NEGATIVE AUTHENTICATION
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+                </div>
+
+                {% for i,da in output.items %}
+                {% if i == 7 %}
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                PROFIT Vs Positive Authentication
+                            </div>
+                            <div class="panel-body">
+                                <div id="transaction">{{ da | safe }}</div>
+                            </div>
+                            <div class="panel-footer">
+                                POSITIVE AUTHENTICATION GIVES DAILY PROFIT
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                {% endif %}
+                {% endfor %}
+
+
+                <div class="row">
+                        {% for i,da in output.items %}
+                        {% if i == 8 or i == 6 %}
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                            <div class="panel panel-primary">
+                                {% if i == 6 %}
+                                <div class="panel-heading">
+                                    TODAY'S AUTHENTICATION RESPONSE
+                                </div>
+                                <div class="panel-body" id="auth-piechart">
+                                    {{ da | safe }}
+                                </div>
+                                <div class="panel-footer">
+                                    TOTAL TODAY AUTHENTICATION RESPONSE
+                                </div>
+                                {% endif %}
+                                {% if i == 8 %}
+                                <div class="panel-heading">
+                                        Age-Wise Authentication Chart
+                                </div>
+                                <div class="panel-body">
+                                    {{ da | safe }}
+                                </div>
+                                <div class="panel-footer">
+                                    AGE GROUP AUTHENTICATION RESPONSE SUMMARY
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% else %}
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+
+
+                <!-- /. PAGE INNER  -->
+            </div>
+
+            <!-- /. PAGE WRAPPER  -->
+            <!-- /. WRAPPER  -->
+            <!-- JS Scripts-->
+            <!-- jQuery Js -->
+            <script src="{% static 'fs/assets/js/jquery-1.10.2.js' %}"></script>
+            <script src="{% static 'fs/js/numscroller-1.0.js' %}"></script>
+            <!-- Bootstrap Js -->
+            <script src="{% static 'fs/assets/js/bootstrap.min.js' %}"></script>
+            <!-- Metis Menu Js -->
+            <!-- DATA TABLE SCRIPTS -->
+            <script src="{% static 'fs/assets/js/dataTables/jquery.dataTables.js' %}"></script>
+            <script src="{% static 'fs/assets/js/dataTables/dataTables.bootstrap.js' %}"></script>
+
+            <script>
+                $(document).ready(function () {
+                    $('#dataTables-example').dataTable();
+                });
+            </script>
+             <script>
+                    $(window).load(function () {
+                        $('.preloader').fadeOut(1000); // set duration in brackets    
+                    });
+                            /* end preloader */
+                </script>
+            <!-- Custom Js -->
+            <script src="{% static 'fs/assets/js/custom-scripts.js' %}"></script>
+</body>
+
+</html>

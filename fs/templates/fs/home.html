@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>ANALYTICS KING </title>
+  {% load staticfiles %}
+  <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+  <script type="text/javascript" src="{% static 'fs/js/bootstrap-3.1.1.min.js' %}"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href='https://fonts.googleapis.com/css?family=Arapey SC' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Alegreya SC' rel='stylesheet'>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}" />
+
+
+  
+      <link rel="stylesheet" href="{% static 'fs/styleh.css' %}">
+
+<style>
+      /* NOTE: The styles were added inline because Prefixfree needs access to your styles and they must be inlined if they are on local disk! */
+      * {
+  box-sizing: border-box;
+  transition: .5s ease-in-out;
+}
+
+.main-container {
+	display: flex;
+	align-items: center;
+	height: 100vh;
+	webkit-filter: blur(10px);
+	background-image: url({% static 'fs/images/b3.jpg' %});
+	background-repeat:no-repeat;
+	background-size:cover;
+
+}
+
+
+#toTop{
+    display: none;
+    text-decoration: none;
+    position: fixed;
+    bottom: 30px;
+    right: 25px;
+    overflow: hidden;
+    z-index: 999;
+    width: 32px;
+    height: 32px;
+    border: none;
+    text-indent: 100%;
+    background: url({% static 'fs/images/arr.png' %}) no-repeat 0px 0px;
+}
+
+html, body {
+  background-color: #220200;
+
+  height: 100%;
+  overflow-y:auto;
+  font-family: helvetica neue,helvetica,arial,sans-serif;
+}
+html h1, body h1 {
+  font-size: 25px;
+  font-weight: 200;
+  color: white;
+  line-height: 30px;
+  margin-bottom: 10px;
+}
+html h2, body h2 {
+  font-size: 15px;
+  color: #6b0500;
+}
+
+
+#card {
+  height: 400px;
+  width: 300px;
+  margin: 0px 0px 0px 300px;
+  position: relative;
+  z-index: 1;
+  perspective: 600px;
+}
+#card #front, #card #back {
+  border-radius: 10px;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+#card #front {
+  transform: rotateY(0deg);
+  overflow: hidden;
+  z-index: 1;
+}
+#card #front #arrow {
+  position: absolute;
+  height: 50px;
+  line-height: 50px;
+  font-size: 30px;
+  z-index: 10;
+  bottom: 0;
+  right: 50px;
+  color: rgba(255, 255, 255, 0.5);
+  animation: arrowWiggle 1s ease-in-out infinite;
+}
+#card #front #top-pic {
+  height: 50%;
+  width: 100%;
+  background-image: url({% static 'fs/images/b1.jpg' %});
+  background-size: cover;
+}
+#card #front #avatar {
+  width: 114px;
+  height: 114px;
+  top: 50%;
+  left: 50%;
+  margin: -77px 0 0 -57px;
+  border-radius: 100%;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.8), 0 4px 5px rgba(107, 5, 0, 0.6), 0 0 50px 50px rgba(255, 255, 255, 0.25);
+  background-image: url({% static 'fs/images/l1.png' %});
+  background-size: contain;
+  position: absolute;
+  z-index: 1;
+}
+#card #front #info-box {
+  height: 50%;
+  width: 100%;
+  position: absolute;
+  display: table;
+  left: 0;
+  bottom: 0;
+  background: rgb(0, 174, 255);
+  padding: 50px;
+}
+#card #front #social-bar {
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  line-height: 50px;
+  font-size: 18px;
+  text-align: center;
+}
+#card #front #social-bar a {
+  display: inline-block;
+  color: #951009;
+  text-decoration: none;
+  padding: 5px;
+  line-height: 18px;
+  border-radius: 5px;
+}
+#card #front #social-bar a:hover {
+  color: #450300;
+  background: rgba(255, 255, 255, 0.3);
+  transition: .25s ease-in-out;
+}
+#card #back {
+  transform: rotateY(180deg);
+  background-color: rgba(255, 255, 255, 0.6);
+  display: table;
+  z-index: 2;
+  font-size: 13px;
+  line-height: 20px;
+  padding: 50px;
+}
+#card #back .back-info {
+  text-align: justify;
+  text-justify: inter-word;
+}
+#card #back #social-bar {
+  height: 50px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  line-height: 50px;
+  font-size: 18px;
+  text-align: center;
+}
+#card #back #social-bar a {
+  display: inline-block;
+  line-height: 18px;
+  color: #951009;
+  text-decoration: none;
+  padding: 5px;
+  border-radius: 5px;
+}
+#card #back #social-bar a:hover {
+  color: #450300;
+  background: rgba(223, 74, 66, 0.5);
+  transition: .25s ease-in-out;
+}
+#card .info {
+  display: table-cell;
+  height: 100%;
+  vertical-align: middle;
+  text-align: center;
+}
+#card.flip #front {
+  transform: rotateY(180deg);
+}
+#card.flip #back {
+  transform: rotateY(360deg);
+}
+
+
+@keyframes arrowWiggle {
+  0% {
+    right: 50px;
+  }
+  50% {
+    right: 35px;
+  }
+  100% {
+    right: 50px;
+  }
+}
+
+</style>
+
+  
+</head>
+
+<body>
+
+  <div class="main-container" id="home">
+	<svg style="justify-content: left;padding-left: 100px;" version="1.1" xmlns="http://www.w3.org/2000/svg" height="500" width="500" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 960 960" enable-background="new 0 0 960 960" xml:space="preserve" style="">
+      <g id="graphic_logo">
+        <g id="rectangles">
+          <path class="rectangles1" fill="#f2f2f2" width="77" height="90" d="M74 719 L151 719 L151 809 L74 809 Z" class="main_1"></path>
+          <path class="rectangles2" fill="#f2f2f2" width="77" height="235" d="M227 567 L304 567 L304 802 L227 802 Z" class="main_2"></path>
+          <path class="rectangles3" fill="#f2f2f2" width="77" height="311" d="M379 491 L456 491 L456 802 L379 802 Z" class="main_3"></path>
+          <path class="rectangles4" fill="#f2f2f2" width="77" height="235" d="M531 567 L608 567 L608 802 L531 802 Z" class="main_4"></path>
+          <path class="rectangles5" fill="#f2f2f2" width="77" height="463" d="M684 339 L761 339 L761 802 L684 802 Z" class="main_5"></path>
+        </g>
+        <path fill="none" stroke="#FFFFFF" stroke-width="10" stroke-miterlimit="10" d="M851,803L74,803L74,266" class="main_6"></path>
+        <g id="grid">
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M151.5,809L151.5,277" class="main_7"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M227.5,809L227.5,277" class="main_8"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M303.5,809L303.5,277" class="main_9"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M379.5,809L379.5,277" class="main_10"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M455.5,809L455.5,277" class="main_11"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M531.5,809L531.5,277" class="main_12"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M607.5,809L607.5,277" class="main_13"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M832,815L832,283" class="main_14"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M683.5,809L683.5,277" class="main_15"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M759.5,809L759.5,277" class="main_16"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M851,719.5L74,719.5" class="main_17"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M851,643.5L74,643.5" class="main_18"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M851,567.5L74,567.5" class="main_19"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M851,491.5L74,491.5" class="main_20"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M851,415.5L74,415.5" class="main_21"></path>
+          <path fill="none" stroke="#FFFFFF" stroke-width="0.4" stroke-miterlimit="10" d="M851,339.5L74,339.5" class="main_22"></path>
+        </g>
+        <g id="curve">
+          <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-miterlimit="10" d="M112.5,719.5c36.614-15.468,93-81,154-154
+            c65.002-77.789,109.751-77.719,155-76c74.221,2.819,95.912,77.252,149,76c40.777-0.962,93.903-46.431,154-227" class="main_23"></path>
+        </g>
+      </g>
+      <style>
+        .rectangles1 {
+          transform-origin: 74px 764px;
+          transform: scaleY(0);
+          animation: rect 1s 1200ms linear forwards;
+        }
+
+        .rectangles2 {
+          transform-origin: 74px 764px;
+          transform: scaleY(0);
+          animation: rect 1s 1400ms linear forwards;
+        }
+
+        .rectangles3 {
+          transform-origin: 74px 764px;
+          transform: scaleY(0);
+          animation: rect 1s 1600ms linear forwards;
+        }
+
+        .rectangles4 {
+          transform-origin: 74px 764px;
+          transform: scaleY(0);
+          animation: rect 1s 1800ms linear forwards;
+        }
+
+        .rectangles5 {
+          transform-origin: 0px 764px;
+          transform: scaleY(0);
+          animation: rect 1s 2000ms linear forwards;
+        }
+
+        @keyframes rect {
+          100% {
+            transform: scaleY(1);
+          }
+        }
+
+        .main_0 {
+          stroke-dasharray: 12328 12330;
+          stroke-dashoffset: 12329;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_1 {
+          stroke-dasharray: 334 336;
+          stroke-dashoffset: 335;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_2 {
+          stroke-dasharray: 624 626;
+          stroke-dashoffset: 625;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_3 {
+          stroke-dasharray: 776 778;
+          stroke-dashoffset: 777;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_4 {
+          stroke-dasharray: 624 626;
+          stroke-dashoffset: 625;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_5 {
+          stroke-dasharray: 1080 1082;
+          stroke-dashoffset: 1081;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_6 {
+          stroke-dasharray: 1314 1316;
+          stroke-dashoffset: 1315;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_7 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_8 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_9 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_10 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_11 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_12 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_13 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_14 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_15 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_16 {
+          stroke-dasharray: 532 534;
+          stroke-dashoffset: 533;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_17 {
+          stroke-dasharray: 777 779;
+          stroke-dashoffset: 778;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_18 {
+          stroke-dasharray: 777 779;
+          stroke-dashoffset: 778;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_19 {
+          stroke-dasharray: 777 779;
+          stroke-dashoffset: 778;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_20 {
+          stroke-dasharray: 777 779;
+          stroke-dashoffset: 778;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_21 {
+          stroke-dasharray: 777 779;
+          stroke-dashoffset: 778;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_22 {
+          stroke-dasharray: 777 779;
+          stroke-dashoffset: 778;
+          animation: main_draw 2000ms linear 1000ms forwards;
+        }
+
+        .main_23 {
+          stroke-dasharray: 859 861;
+          stroke-dashoffset: 860;
+          animation: main_draw 2000ms linear 1.5s forwards;
+        }
+
+        @keyframes main_draw {
+          100% {
+            stroke-dashoffset: 0;
+          }
+        }
+      </style>
+      
+         
+        <div id="card">
+            <a href="javascript:void" class="more-info">
+          <div id="front">
+            
+            <div id="top-pic"></div>
+            <div id="avatar"></div>
+            <div id="info-box">
+              <div class="info">
+                <h1>Analytics King</h1>
+                <h2 style="color:#D10404;font-family:Arapey SC;">A Data Analysis Platform</h2>
+				<h2 style="color:#FAF8F8;font-family:Alegreya SC;">Click here!</h2>
+
+              </div>
+			  
+            </div>
+        
+            
+          </div>
+          <a href="javascript:void" class="more-info">
+          <div id="back">
+            <div class="back-info">
+              <p style="color:black">Analytics King application provides the user with the reasons for the failures and provides or suggests the measures to overcome them by analyzing large aadhar data.</p>
+            </div>
+			<br>
+		   <br>
+		  <button onclick="window.location.href='{% url 'login1' %}'" style="font-size:17px;border-radius:12px;border-color:rgb(0, 174, 255);background-color:rgb(0, 174, 255);color:black;">Sign in <i class="fa fa-sign-in"></i></button>
+		  <button  onclick="window.location.href='{% url 'register' %}'" style="font-size:17px;border-radius:12px;border-color:rgb(0, 174, 255);background-color:rgb(0, 174, 255);color:black;">Register <i class="fa fa-users"></i></button>
+		  </div>
+		  </div>
+          </a>
+          </div>
+      
+      
+    </svg>
+
+</div>
+<div class="second-container">
+
+	<div class="grid data-visualisation">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 960 960" height="200" width="200" enable-background="new 0 0 960 960" xml:space="preserve" style="">
+        <g id="data_visualisation">
+          <g id="hexagon">
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M205.5,300.997L479.994,142.999L
+              754.5,300.997L754.5,617.001L480,775L205.5,617.001Z" class="data-vis_1"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M667.5,565.5L754.5,617.001" class="data-vis_2"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M479.5,240L479.994,142.999" class="data-vis_3"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M291.5,347.5L205.5,300.997" class="data-vis_4"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M291.5,565.5L205.5,617.001" class="data-vis_5"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M479.5,675L480,775" class="data-vis_6"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M667.5,347.5L754.5,300.997" class="data-vis_7"></path>
+          </g>
+          <g id="hexa">
+            <g>
+              <g>
+
+                <path fill="none" stroke="#38C0BF" stroke-width="1.4261" stroke-miterlimit="10" d="M692.699,579.75L478.787,455.787" class="data-vis_8"></path>
+
+                <path fill="none" stroke="#38C0BF" stroke-width="1.4261" stroke-miterlimit="10" d="M692.699,333.25L478.787,455.787" class="data-vis_9"></path>
+                <path fill="none" stroke="#38C0BF" stroke-width="2.0197" stroke-miterlimit="10" d="M479.5,210L478.787,703" class="data-vis_10"></path>
+
+                <path fill="none" stroke="#38C0BF" stroke-width="1.4261" stroke-miterlimit="10" d="M266.301,333.25L478.787,455.787" class="data-vis_11"></path>
+
+                <path fill="none" stroke="#38C0BF" stroke-width="1.4261" stroke-miterlimit="10" d="M266.301,579.75L478.787,455.787" class="data-vis_12"></path>
+              </g>
+              <path fill="none" stroke="#FFFFFF" stroke-width="4.4118" stroke-miterlimit="10" d="M291.559,347.75L479.5,239L
+                667.441,347.75L667.441,565.25L479.5,674L291.559,565.25Z" class="data-vis_13"></path>
+            </g>
+            <path id="graphicline" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-miterlimit="10" d="M348,378.728L
+              479.486,274.777L603.273,382.71L652,556L479.237,590.551L342,535Z" class="data-vis_14"></path>
+          </g>
+        </g>
+        <style>
+          .data-vis_0 {
+            stroke-dasharray: 12328 12330;
+            stroke-dashoffset: 12329;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_1 {
+            stroke-dasharray: 1899 1901;
+            stroke-dashoffset: 1900;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_2 {
+            stroke-dasharray: 102 104;
+            stroke-dashoffset: 103;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_3 {
+            stroke-dasharray: 98 100;
+            stroke-dashoffset: 99;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_4 {
+            stroke-dasharray: 98 100;
+            stroke-dashoffset: 99;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_5 {
+            stroke-dasharray: 101 103;
+            stroke-dashoffset: 102;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_6 {
+            stroke-dasharray: 101 103;
+            stroke-dashoffset: 102;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_7 {
+            stroke-dasharray: 99 101;
+            stroke-dashoffset: 100;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_8 {
+            stroke-dasharray: 248 250;
+            stroke-dashoffset: 249;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_9 {
+            stroke-dasharray: 247 249;
+            stroke-dashoffset: 248;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_10 {
+            stroke-dasharray: 494 496;
+            stroke-dashoffset: 495;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_11 {
+            stroke-dasharray: 246 248;
+            stroke-dashoffset: 247;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_12 {
+            stroke-dasharray: 247 249;
+            stroke-dashoffset: 248;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_13 {
+            stroke-dasharray: 1304 1306;
+            stroke-dashoffset: 1305;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-vis_14 {
+            stroke-dasharray: 993 995;
+            stroke-dashoffset: 994;
+            animation: data-vis_draw 2000ms linear 4000ms forwards;
+          }
+
+          @keyframes data-vis_draw {
+            100% {
+              stroke-dashoffset: 0;
+            }
+          }
+
+        </style>
+      </svg>
+		<h1>Data Visualisation</h1>
+<div style="color:#00FFFF;text-align:justify;font-size:17px;">
+Data visualization is the presentation of data in a pictorial or graphical format. It enables decision makers to see analytics presented visually, so they can grasp difficult concepts or identify new patterns. With interactive visualization, you can take the concept a step further by using technology to drill down into charts and graphs for more detail, interactively changing what data you see and how it's processed.
+ </div>
+	</div>
+	<div class="grid data-integration">
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 960" height="200" width="200" style="">
+        <g id="data_integration" fill="none" stroke-miterlimit="10">
+          <g id="data" stroke="#FFF" stroke-width="6.2934">
+            <path d="M478.958 529.231l-144.721-73.298 144.721-68.799 146.596 70.486z" class="data-int_0"></path>
+            <path d="M625.554 476.554l-146.596 71.61-144.721-73.297" class="data-int_1"></path>
+            <path d="M625.554 495.675l-146.596 71.611-144.721-73.298" class="data-int_2"></path>
+            <path d="M625.554 517.233l-146.596 71.612-144.721-73.299" class="data-int_3"></path>
+          </g>
+          <path stroke="#FFF" stroke-width="5" d="M249.5 347.685l229.995-132.313L709.5 347.685v264.63l-230 132.313-230-132.313z" class="data-int_4"></path>
+          <path stroke="#38C0BF" stroke-width="6" d="M297 375.499L478.496 271 660 375.499v209.002L478.5 689 297 584.501z" class="data-int_5"></path>
+          <g id="hexagon_1_" stroke="#38C0BF">
+            <path stroke-width="10" d="M205 321.998l274.494-157.999L754 321.998v316.004L479.5 796.001 205 638.002z" class="data-int_6"></path>
+            <path stroke-width="5" d="M479.5 215v-51m0 581v51" class="data-int_7"></path>
+          </g>
+        </g>
+        <style>
+          .data-int_0 {
+            stroke-dasharray: 649 651;
+            stroke-dashoffset: 650;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-int_1 {
+            stroke-dasharray: 326 328;
+            stroke-dashoffset: 327;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-int_2 {
+            stroke-dasharray: 326 328;
+            stroke-dashoffset: 327;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-int_3 {
+            stroke-dasharray: 326 328;
+            stroke-dashoffset: 327;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-int_4 {
+            stroke-dasharray: 1591 1593;
+            stroke-dashoffset: 1592;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-int_5 {
+            stroke-dasharray: 1256 1258;
+            stroke-dashoffset: 1257;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-int_6 {
+            stroke-dasharray: 1899 1901;
+            stroke-dashoffset: 1900;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          .data-int_7 {
+            stroke-dasharray: 102 104;
+            stroke-dashoffset: 103;
+            animation: data-int_draw 2000ms linear 4000ms forwards;
+          }
+
+          @keyframes data-int_draw {
+            100% {
+              stroke-dashoffset: 0;
+            }
+          }
+
+
+        </style>
+      </svg>
+		<h1>Data Integration</h1>
+<div style="color:#00FFFF;text-align:justify;font-size:17px;">
+ Data integration is the combination of technical and business processes used to combine data from disparate sources into meaningful and valuable information. A complete data integration solution delivers trusted data from various sources.
+
+Data integration solutions from IBM offer organizations a scalable data integration platform. The platform allows you to extract data, transform it in any style and load (ETL) it to any system, supporting faster time to value and reduced IT risk.
+  </div>
+
+	</div>
+		<div class="grid security-analytics">
+		<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 960 960" enable-background="new 0 0 960 960" xml:space="preserve" height="200" width="200" style="">
+        <g id="security_analytics">
+          <g id="locke">
+            <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-miterlimit="10" d="M567.5,549.803
+              c0,9.773-7.924,17.697-17.697,17.697H366.197c-9.774,0-17.697-7.924-17.697-17.697v-95.605c0-9.774,7.923-17.697,17.697-17.697
+              h183.605c9.773,0,17.697,7.923,17.697,17.697V549.803z" class="security_ana_1"></path>
+            <path fill="none" stroke="#FFFFFF" stroke-width="5" stroke-miterlimit="10" d="M384.62,402.925
+              c0-40.686,32.754-73.467,73.44-73.467c40.688,0,73.44,33.185,73.44,73.872V435" class="security_ana_2"></path>
+
+            <path transform="matrix(0.1602 -0.9871 0.9871 0.1602 -109.4789 873.6863)" fill="none" stroke="#FFFFFF" stroke-width="5.3213"
+              stroke-miterlimit="10" d="M443.26300000000003,501.182A15.445,15.445 0,1,1 474.153,501.182A15.445,15.445 0,1,1 443.26300000000003,501.182"
+              class="security_ana_3"></path>
+          </g>
+          <g id="hexa_1_">
+            <path fill="none" stroke="#38C0BF" stroke-width="10" stroke-miterlimit="10" d="M183,300.997L457.494,142.999L
+              732,300.997L732,617.001L457.5,775L183,617.001Z" class="security_ana_4"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="5" stroke-miterlimit="10" d="M227.5,326.685L457.495,194.372L
+              687.5,326.685L687.5,591.315L457.5,723.628L227.5,591.315Z" class="security_ana_5"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="10" stroke-miterlimit="10" d="M687,459L732,459" class="security_ana_6"></path>
+            <path fill="none" stroke="#38C0BF" stroke-width="10" stroke-miterlimit="10" d="M183,459L228,459" class="security_ana_7"></path>
+          </g>
+        </g>
+        <style>
+          .security_ana_0 {
+            stroke-dasharray: 12328 12330;
+            stroke-dashoffset: 12329;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          .security_ana_1 {
+            stroke-dasharray: 670 672;
+            stroke-dashoffset: 671;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          .security_ana_2 {
+            stroke-dasharray: 263 265;
+            stroke-dashoffset: 264;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          .security_ana_3 {
+            stroke-dasharray: 98 100;
+            stroke-dashoffset: 99;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          .security_ana_4 {
+            stroke-dasharray: 1899 1901;
+            stroke-dashoffset: 1900;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          .security_ana_5 {
+            stroke-dasharray: 1591 1593;
+            stroke-dashoffset: 1592;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          .security_ana_6 {
+            stroke-dasharray: 45 47;
+            stroke-dashoffset: 46;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          .security_ana_7 {
+            stroke-dasharray: 45 47;
+            stroke-dashoffset: 46;
+            animation: security_ana_draw 2000ms linear 4000ms forwards;
+          }
+
+          @keyframes security_ana_draw {
+            100% {
+              stroke-dashoffset: 0;
+            }
+          }
+
+
+        </style>
+      </svg>
+		<h1>Security Analytics </h1>
+
+<div style="color:#00FFFF;text-align:justify;font-size:17px;">
+Security analytics is the process of using data collection, aggregation, and analysis tools for security monitoring and threat detection. Depending on the types of tools installed, security analytics solutions can incorporate large and diverse data sets into their detection algorithms. 
+</div>
+	</div>
+
+	
+
+</div>
+<div>
+<a href="#home" id="toTop" style="display:block;">
+<span id="toTopHover" style="opacity: 0;"></span> 
+<span id="toTopHover" style="opacity: 1;"> </span>
+</a>
+
+
+</div>
+    <script  src="{% static 'fs/js/indexh.js' %}"></script>
+
+
+
+
+</body>
+
+</html>

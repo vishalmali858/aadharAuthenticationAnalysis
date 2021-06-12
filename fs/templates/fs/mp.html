@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    {% load staticfiles %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MAPS | Analytics_KING</title>
+    <!-- Bootstrap Styles-->
+    <link href="{% static 'fs/assets/css/bootstrap.css' %}" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="{% static 'fs/assets/css/font-awesome.css' %}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="{% static 'fs/assets/css/custom-styles.css' %}" rel="stylesheet" />
+
+    <script type="text/javascript" src="{% static 'fs/js/fusioncharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fs/js/themes/fusioncharts.theme.fusion.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fs/js/fusioncharts.maps.js' %}"></script>
+    <script type="text/javascript" src="{% static 'fs/js/maps/fusioncharts.india.js' %}"></script>
+    <link href="{% static 'fs/assets/css/custom-styles.css' %}" rel="stylesheet" />
+    <link href="{% static 'fs/assets/js/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet" />
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
+</head>
+<link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}" />
+
+</head>
+
+<body>
+        <div class="preloader">
+                <div class="sk-spinner sk-spinner-wave">
+                        <div class="sk-rect1"></div>
+                        <div class="sk-rect2"></div>
+                        <div class="sk-rect3"></div>
+                        <div class="sk-rect4"></div>
+                        <div class="sk-rect5"></div>
+                </div>
+                </div>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand"><img src="{% static 'fs/images/logotext.png' %}"></div>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i>WELCOME USER:({{ user.username }})
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="{% url 'logout_user' %}" aria-expanded="false">
+                        <i class="fa fa-sign-out fa-fw"></i>Logout
+                    </a>
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation"><br><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="center"
+                src="{% static 'fs/images/logo1.png' %}" height="20%" width="50%"><br><br><br>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="{% url 'user_view' user.username %}"><i class="fa fa-dashboard"></i>DASHBOARD</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'rl' user.username %}"><i class="fa fa-bar-chart-o"></i>Charts</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'ec' user.username %}"><i class="fa fa-compass"></i>ERROR-HANDLING</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="{% url 'mp' user.username %}"><i
+                                class="fa fa-map-marker"></i>MAPS</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'up' user.username %}"><i class="fa fa-user"></i>USER PROFILE</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'rp' user.username %}"><i class="fa fa-lock"></i>CHANGE PASSWORD</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner"><br><br>
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a href="{% url 'user_view' user.username %}">Home</a></li>
+                        <li class="active">Maps</li>
+                    </ol>
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            Maps
+                        </h1>
+                    </div>
+
+                </div>
+                <!--/.row-->
+                <div class="row">
+                    {% for i,da in output.items %}
+
+                    {% if i == 0 %}
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary">
+
+                            <div class="panel-heading">
+                                STATE-WISE POSITIVE Authentication Chart
+                            </div>
+                            <div class="panel-body">
+                                <div id="p1">{{ da | safe }}</div>
+                            </div>
+                            <div class="panel-footer">
+                                TOTAL NUMBER OF STATEWISE POSITIVE AUTHENTICATION SUMMARY
+                            </div>
+                        </div>
+                    </div>
+
+                    {% elif i == 1 %}
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                        <div class="panel panel-primary">
+
+                            <div class="panel-heading">
+                                STATE-WISE PROFIT Authentication Chart
+                            </div>
+                            <div class="panel-body">
+                                <div id="p2">{{ da | safe }}</div>
+                            </div>
+                            <div class="panel-footer">
+                                STATEWISE PROFIT SUMMARY
+                            </div>
+                        </div>
+                    </div>
+                    {% else %}
+                    {% endif %}
+                    {% endfor %}
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                POSITIVE-AUTHENTICATION-SUMMARY
+                            </div>
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-bordered table-hover" id="db5">
+                                        <thead>
+                                            <tr>
+                                                <th>STATE-NAME</th>
+                                                <th>
+                                                    {% for i,su in output.items %}
+                                                    {% if i == 66 %}
+                                                    <img src="{% static 'fs/images/d.png' %}"><b>(Rs {{ su.0 }} /Per
+                                                        Transaction)</b></th>
+                                                <th><img src="{% static 'fs/images/o.png' %}">(Rs {{ su.1 }} /Per
+                                                    Transaction)</b></th>
+                                                <th><img src="{% static 'fs/images/f.png' %}">(Rs {{ su.2 }} /Per
+                                                    Transaction)</b></th>
+                                                {% else %}
+                                                {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {% for i,su in output.items %}
+                                            {% if i >= 10 %}
+                                            {% if i <= 37 %}
+                                            <tr>
+                                                <td><b>{{ su.0 }}</b></td>
+                                                <td class="center"><b><span class='numscroller' data-min='1'
+                                                            data-max='{{ su.1 }}' data-delay='50'
+                                                            data-increment='5000'>{{ su.1 }}</span></b></td>
+                                                <td class="center"><b><span class='numscroller' data-min='1'
+                                                            data-max='{{ su.2 }}' data-delay='50'
+                                                            data-increment='5000'>{{ su.2 }}</span></b></td>
+                                                <td class="center"><b><span class='numscroller' data-min='1'
+                                                            data-max='{{ su.3 }}' data-delay='50'
+                                                            data-increment='5000'>{{ su.3 }}</span></b>
+                                                </td>
+                                            </tr>
+                                            {% else %}
+                                            {% endif %}
+                                            {% else %}
+                                            {% endif %}
+
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                TOTAL NUMBER OF STATEWISE POSITIVE AUTHENTICATION SUMMARY
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div class="row">
+                        {% for i,da in output.items %}
+
+                        {% if i == 2 %}
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="panel panel-danger">
+                                <div class="panel-heading">
+                                    STATE-WISE NEGATIVE Authentication Chart
+                                </div>
+                                <div class="panel-body">
+                                    <div id="l1">{{ da | safe }}</div>
+                                </div>
+                                <div class="panel-footer">
+                                    TOTAL NUMBER OF STATEWISE NEGATIVE AUTHENTICATION SUMMARY
+                                </div>
+                            </div>
+                        </div>
+
+                        {% elif i == 3 %}
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="panel panel-danger">
+
+                                <div class="panel-heading">
+                                    STATE-WISE LOSS Authentication Chart
+                                </div>
+                                <div class="panel-body">
+                                    <div id="l2">{{ da | safe }}</div>
+                                </div>
+                                <div class="panel-footer">
+                                    LOSS STATEWISE SUMMARY
+                                </div>
+                            </div>
+                        </div>
+                        {% else %}
+                        {% endif %}
+                        {% endfor %}
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <!-- Advanced Tables -->
+                                <div class="panel panel-info">
+                                    <div class="panel-heading">
+                                        STATEWISE-NEGATIVE-AUTHENTICATION-SUMMARY
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table class="table table-striped table-bordered table-hover" id="db6">
+                                                <thead>
+                                                    <tr>
+                                                        <th>STATE-NAME</th>
+                                                        <th>
+                                                            {% for i,su in output.items %}
+                                                            {% if i == 66 %}
+                                                            <img src="{% static 'fs/images/d.png' %}"><b>(Rs
+                                                                {{ su.0 }}/Per Transaction)</b></th>
+                                                        <th><img src="{% static 'fs/images/o.png' %}">(Rs {{ su.1 }}/Per
+                                                            Transaction)</b></th>
+                                                        <th><img src="{% static 'fs/images/f.png' %}">(Rs {{ su.2 }}/Per
+                                                            Transaction)</b></th>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    {% for i,su in output.items %}
+                                                    {% if i >= 38 %}
+                                                    {% if i <= 65 %}
+                                                    <tr>
+                                                        <td><b>{{ su.0 }}</b></td>
+                                                        <td class="center"><b><span class='numscroller' data-min='1'
+                                                                    data-max='{{ su.1 }}' data-delay='50'
+                                                                    data-increment='5000'>{{ su.1 }}</span></b></td>
+                                                        <td class="center"><b><span class='numscroller' data-min='1'
+                                                                    data-max='{{ su.2 }}' data-delay='50'
+                                                                    data-increment='5000'>{{ su.2 }}</span></b></td>
+                                                        <td class="center"><b><span class='numscroller' data-min='1'
+                                                                    data-max='{{ su.3 }}' data-delay='50'
+                                                                    data-increment='5000'>{{ su.3 }}</span></b>
+                                                        </td>
+                                                    </tr>
+                                                    {% else %}
+                                                    {% endif %}
+                                                    {% else %}
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </tbody>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        TOTAL NUMBER OF STATEWISE NEGATIVE AUTHENTICATION
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <!-- /. PAGE INNER  -->
+                        </div>
+
+
+                        <!-- /. PAGE WRAPPER  -->
+                        <!-- /. WRAPPER  -->
+                    </div>
+                    </div>
+                    <script src="{% static 'fs/assets/js/jquery-1.10.2.js' %}"></script>
+                    <script src="{% static 'fs/js/numscroller-1.0.js' %}"></script>
+                    <!-- Bootstrap Js -->
+                    <script src="{% static 'fs/assets/js/bootstrap.min.js' %}"></script>
+                    <!-- DATA TABLE SCRIPTS -->
+                    <script src="{% static 'fs/assets/js/dataTables/jquery.dataTables.js' %}"></script>
+                    <script src="{% static 'fs/assets/js/dataTables/dataTables.bootstrap.js' %}"></script>
+
+                    <script>
+                        $(document).ready(function () {
+                            $('#db5').dataTable();
+                        });
+                    </script>
+                    <script>
+                        $(document).ready(function () {
+                            $('#db6').dataTable();
+                        });
+                    </script>
+                    <script>
+                        $(window).load(function(){
+                            $('.preloader').fadeOut(1000); // set duration in brackets    
+                        });
+                        /* end preloader */
+                    </script>
+                    <!-- Custom Js -->
+                    <script src="{% static 'fs/assets/js/custom-scripts.js' %}"></script>
+</body>
+
+</html>

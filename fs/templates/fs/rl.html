@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    {% load staticfiles %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>REAL TIME ANALYTICS | Analytics_KING</title>
+    <!-- Bootstrap Styles-->
+    <link href="{% static 'fs/assets/css/bootstrap.css' %}" rel="stylesheet" />
+    <!-- FontAwesome Styles-->
+    <link href="{% static 'fs/assets/css/font-awesome.css' %}" rel="stylesheet" />
+    <!-- Custom Styles-->
+    <link href="{% static 'fs/assets/css/custom-styles.css' %}" rel="stylesheet" />
+    <!-- Google Fonts-->
+    <link href='https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css' rel='stylesheet' />
+
+
+    <link href="{% static 'fs/assets/css/custom-styles.css' %}" rel="stylesheet" />
+    <link href="{% static 'fs/assets/js/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet" />
+    <link href='https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js' rel='stylesheet' />
+
+<link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}" />
+
+<script>
+    
+        window.onload = function () {
+
+        {% for i,da in data.items %}
+        {% if i == 0 %}
+            var r ='{{ da | safe }}';
+        {% endif %}
+        {% if i == 1 %}
+            var r1 ='{{ da | safe }}';
+        {% endif %}
+        {% if i == 2 %}
+            var r2 ='{{ da | safe }}';
+        {% endif %}
+        {% if i == 3 %}
+            var r3 ='{{ da | safe }}';
+        {% endif %}
+        {% endfor %}
+        var data1=JSON.parse(r);
+        var data2=JSON.parse(r1);
+        var data3=JSON.parse(r2);
+        var data4=JSON.parse(r3);
+        var dps = []; // dataPoints
+        var chart = new CanvasJS.Chart("chartContainer", {
+            title :{
+                text: "DAILY AUTHENTICATION ANALYSIS",
+                fontColor: "#2f4f4f",
+                fontSize: 25,
+                padding: 10,
+                margin: 15,
+                backgroundColor: "#FFFFE0",
+                borderThickness: 1,
+                cornerRadius: 3
+            },
+            axisX: {
+			labelMaxWidth: 70,
+			labelAutoFit: true,   // change it to false
+			interval: 1,
+		},
+        dataPointWidth: 15,
+            axisY: {
+
+                maximum:1,
+                minimum:-1,
+                interval:1,
+                includeZero: false
+            },
+            data: [{
+                type: "column",
+                showInLegend: true,
+                dataPoints: dps,
+		        color: "#5d62b5",
+                legendText: "DEMOGRAPHIC ANALYSIS"    
+            },
+            {
+                type: "column",
+                showInLegend: true,
+                dataPoints:dps,
+                color: "#29c3be",
+                legendText: "OTP ANALYSIS"
+            },
+            {
+                type: "column",
+                showInLegend: true,
+                color: "#f2726f",
+                dataPoints:dps,
+                legendText: "BIOMETRIC ANALYSIS"
+            }]
+        });
+        var xVal = 0;
+        var yVal = 1; 
+        var updateInterval = 10000;
+        var dataLength = 15; // number of dataPoints visible at any point
+        var k=0;
+        var Val=0;
+        var t="";
+        var p=0;
+
+        var updateChart = function (count) {
+        
+        
+        count = count || 1;
+           
+            
+            for (var j = 0; j < count; j++,k++) {
+
+                z=data2[k];
+                xVal=data1[k];
+                yVal=data3[k];
+                w = yVal == 0 ? "<tr style='border: 3px double red;color:red;'>" : "<tr style='border: 3px double green;color:green;'>";
+                r = yVal == 0 ? "<img src='{% static 'fs/images/u.png' %}'>" : "<img src='{% static 'fs/images/a.png' %}'>";
+                c1 = z == 2 ? "<img src='{% static 'fs/images/d.png' %}'>" : z == 3 ? "<img src='{% static 'fs/images/o.png' %}'>" : z == 4 ? "<img src='{% static 'fs/images/f.png' %}'>" : null;
+                if (yVal == 1)
+                {
+                    p = z == 2 ? data4[0] : z == 3 ? data4[1] : z == 4 ? data4[2] : null;
+                }
+                else
+                {
+                    p = 0;
+                }
+                t+= w +"<td style='border:2px solid black'><b>" +data1[k] +"</td><td style='border:2px solid black'>" +c1 +"</td><td style='border:2px solid black'>" +r +"</td><td style='border 2px solid black'><b><h3>" +"Rs " +p  +"</td></h3></b></tr>";
+                
+                y1 = yVal == 0 ? -1 : 1; 
+                c = z == 2 ? "#5d62b5" : z == 3 ? "#29c3be" : z == 4 ? "#f2726f" : null; 
+                dps.push({
+                    label: xVal,
+                    x: Val,
+                    color:c,
+                    y: y1
+                });
+		        Val++;
+            }
+            document.getElementById("k").innerHTML = t;
+            if (dps.length > dataLength) {
+                dps.shift();
+            }
+         
+            chart.render();
+        };
+        updateChart(dataLength);
+        setInterval(function(){updateChart()}, updateInterval);
+
+        var dps1 = [];
+
+        var chart1 = new CanvasJS.Chart("chart1Container", {
+            title :{
+                text: "DAILY DEMOGRAPHIC AUTHENTICATION ANALYSIS",
+                fontColor: "#2f4f4f",
+                fontSize: 25,
+                padding: 10,
+                margin: 15,
+                backgroundColor: "#FFFFE0",
+                borderThickness: 1,
+                cornerRadius: 3
+            },
+            dataPointWidth: 30,
+            axisX: {
+			labelMaxWidth: 70,
+			labelAutoFit: true,   // change it to false
+			interval: 1,
+		},
+            axisY: {
+
+                maximum:1,
+                minimum:-1,
+                interval:1,
+                includeZero: false
+            },
+            data: [{
+                type: "column",
+                showInLegend: true,
+                dataPoints: dps1,
+		        color: "#5d62b5",
+                legendText: "DEMOGRAPHIC ANALYSIS"    
+            }]
+        });
+
+        var xVal1 = 0;
+        var yVal1 = 1; 
+        var updateInterval1 = 10000;
+        var dataLength1 = 15; // number of dataPoints visible at any point
+        var k1=0;
+        var Val1=0
+        var updateChart1 = function (count1) {
+
+
+            count1 = count1 || 1;
+           
+            for (var j1 = 0; j1 < count1; j1++,k1++) {
+                xVal1=data1[k1];
+                yVal1=data3[k1];
+                z1=data2[k1];
+                if(z1==2)
+                {
+                y11 = yVal1 == 0 ? -1 : 1;     
+                dps1.push({
+                    label: xVal1,
+                    x: Val1,
+                    y: y11
+                });
+		        Val1++;
+                }
+            }
+            
+            if (dps1.length > dataLength1) {
+                dps1.shift();
+            }
+         
+            chart1.render();
+        };
+
+        updateChart1(dataLength1);
+        setInterval(function(){updateChart1()}, updateInterval1);
+
+        
+        var dps2 = [];
+
+        var chart2 = new CanvasJS.Chart("chart2Container", {
+            title :{
+                text: "DAILY OTP AUTHENTICATION ANALYSIS",
+                fontColor: "#2f4f4f",
+                fontSize: 25,
+                padding: 10,
+                margin: 15,
+                backgroundColor: "#FFFFE0",
+                borderThickness: 1,
+                cornerRadius: 3
+            },
+            dataPointWidth: 30,
+            axisX: {
+            labelMaxWidth: 70,
+            labelAutoFit: true,   // change it to false
+            interval: 1,
+        },
+            axisY: {
+
+                maximum:1,
+                minimum:-1,
+                interval:1,
+                includeZero: false
+            },
+            data: [{
+                type: "column",
+                showInLegend: true,
+                dataPoints: dps2,
+                color: "#29c3be",
+                legendText: "OTP ANALYSIS"    
+            }]
+        });
+
+        var xVal2 = 0;
+        var yVal2 = 1; 
+        var updateInterval2 = 10000;
+        var dataLength2 = 15; // number of dataPoints visible at any point
+        var k2=0;
+        var Val2=0
+        var updateChart2 = function (count2) {
+
+
+            count2 = count2 || 1;
+        
+            for (var j2 = 0; j2 < count2; j2++,k2++) {
+                xVal2=data1[k2];
+                yVal2=data3[k2];
+                z2=data2[k2];
+                if(z2==3)
+                {
+                y12 = yVal2 == 0 ? -1 : 1;     
+                dps2.push({
+                    label: xVal2,
+                    x: Val2,
+                    y: y12
+                });
+                Val2++;
+                }
+            }
+            
+            if (dps2.length > dataLength2) {
+                dps2.shift();
+            }
+        
+            chart2.render();
+        };
+
+        updateChart2(dataLength2);
+        setInterval(function(){updateChart2()}, updateInterval2);
+                
+        
+        var dps3 = [];
+
+        var chart3 = new CanvasJS.Chart("chart3Container", {
+            title :{
+                text: "DAILY DEMOGRAPHIC AUTHENTICATION ANALYSIS",
+                fontColor: "#2f4f4f",
+                fontSize: 25,
+                padding: 10,
+                margin: 15,
+                backgroundColor: "#FFFFE0",
+                borderThickness: 1,
+                cornerRadius: 3
+            },
+            dataPointWidth: 30,
+            axisX: {
+            labelMaxWidth: 70,
+            labelAutoFit: true,   // change it to false
+            interval: 1,
+        },
+            axisY: {
+
+                maximum:1,
+                minimum:-1,
+                interval:1,
+                includeZero: false
+            },
+            data: [{
+                type: "column",
+                showInLegend: true,
+                dataPoints: dps3,
+                color: "#f2726f",
+                legendText: "BIOMETRIC ANALYSIS"    
+            }]
+        });
+
+        var xVal3 = 0;
+        var yVal3 = 1; 
+        var updateInterval3 = 10000;
+        var dataLength3 = 10; // number of dataPoints visible at any point
+        var k3=0;
+        var Val3=0
+        var updateChart3 = function (count3) {
+
+
+            count3 = count3 || 1;
+
+            for (var j3 = 0; j3 < count3; j3++,k3++) {
+                xVal3=data1[k3];
+                yVal3=data3[k3];
+                z3=data2[k3];
+                if(z3==4)
+                {
+                y13 = yVal3 == 0 ? -1 : 1;     
+                dps3.push({
+                    label: xVal3,
+                    x: Val3,
+                    y: y13
+                });
+                Val3++;
+                }
+            }
+            
+            if (dps3.length > dataLength3) {
+                dps3.shift();
+            }
+
+            chart3.render();
+        };
+
+        updateChart3(dataLength3);
+        setInterval(function(){updateChart3()}, updateInterval3);
+        }
+        
+        </script>
+</head>
+
+<body>
+        <div class="preloader">
+                <div class="sk-spinner sk-spinner-wave">
+                    <div class="sk-rect1"></div>
+                    <div class="sk-rect2"></div>
+                    <div class="sk-rect3"></div>
+                    <div class="sk-rect4"></div>
+                    <div class="sk-rect5"></div>
+                </div>
+            </div>
+            </div>
+    <div id="wrapper">
+        <nav class="navbar navbar-default top-navbar navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".sidebar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                </button>
+                <div class="navbar-brand"><img src="{% static 'fs/images/logotext.png' %}"></div>
+            </div>
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
+                        <i class="fa fa-user fa-fw"></i>WELCOME USER:({{ user.username }})
+                    </a>
+                </li>
+                <li class="dropdown">
+                    <a class="dropdown-toggle" href="{% url 'logout_user' %}" aria-expanded="false">
+                        <i class="fa fa-sign-out fa-fw"></i>Logout
+                    </a>
+                </li>
+                <!-- /.dropdown -->
+            </ul>
+        </nav>
+        <!--/. NAV TOP  -->
+        <nav class="navbar-default navbar-side" role="navigation"><br><br><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img class="center"
+                src="{% static 'fs/images/logo1.png' %}" height="20%" width="50%"><br><br><br>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="main-menu">
+                    <li>
+                        <a href="{% url 'user_view' user.username %}"><i class="fa fa-dashboard"></i>DASHBOARD</a>
+                    </li>
+                    <li>
+                        <a class="active-menu" href="{% url 'rl' user.username %}"><i class="fa fa-bar-chart-o"></i>Charts</a>
+                    </li>
+                    <li>
+                        <a  href="{% url 'ec' user.username %}"><i
+                                class="fa fa-compass"></i>ERROR-HANDLING</a>
+                    </li>
+                    <li>
+                        <a  href="{% url 'mp' user.username %}"><i
+                                class="fa fa-map-marker"></i>MAPS</a>
+                    </li>
+                   
+                    <li>
+                        <a  href="{% url 'up' user.username %}"><i
+                                class="fa fa-user"></i>USER PROFILE</a>
+                    </li>
+                    <li>
+                            <a  href="{% url 'rp' user.username %}"><i
+                                    class="fa fa-lock"></i>CHANGE PASSWORD</a>
+                        </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- /. NAV SIDE  -->
+        <div id="page-wrapper">
+            <div id="page-inner"><br><br>
+                <div class="row">
+                    <ol class="breadcrumb">
+                        <li><a href="#">Home</a></li>
+                        <li class="active">REAL TIME</li>
+                    </ol>
+                    <div class="col-md-12">
+                        <h1 class="page-header">
+                            REAL TIME
+                        </h1>
+                    </div>
+
+                </div>
+                <!--/.row-->
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Advanced Tables -->
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                AUTHENTICATION-SUMMARY
+                            </div>
+                            <div class="panel-body">
+
+                                    <div id="chartContainer" style="height:500px;,width:100%;">
+                                    </div>
+                                    
+
+                                    
+                    </div>
+                    <div class="panel-footer">
+                        REAL TIME AUTHENTICATION SUMMARY( LAST 1 HOUR DETAILS )
+                    </div>
+                </div>
+            </div>
+            </div>            
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                           TYPES OF AUTHENTICATION(REAL TIME)
+                        </div>
+                        <div class="panel-body" style="height:100%;width:100%">
+                            <ul class="nav nav-tabs" >
+                                <li class="active"><a href="#home" data-toggle="tab">DEMOGRAPHIC</a>
+                                </li>
+                                <li class=""><a href="#profile" data-toggle="tab">OTP</a>
+                                </li>
+                                <li class=""><a href="#messages" data-toggle="tab">BIOMETRIC</a>
+                                </li>
+                                <li class=""><a href="#me" data-toggle="tab">TABLE</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane fade active in" id="home"style="height:500px;width:100%">
+                                    <h4>DEMOGRAPHIC ANALYSIS</h4>
+                                    <div id="chart1Container">
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="profile" style="height:500px;width:100%">
+                                    <h4>OTP ANALYSIS</h4>
+                                    <div id="chart2Container">
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="messages" style="height:500px;width:100%">
+                                    <h4>BIOMETRIC ANALYSIS</h4>
+                                    <div id="chart3Container">
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="me">
+                                    <h4>SUMMARY</h4>
+                                    <div class="table-responsive">
+                                            <table class="table" id="db5" style="border:2px solid black ">
+                                                <thead>
+                                                    <tr>
+                                                        <th  style="border:2px solid black">TIME</th>
+                                                        <th  style="border:2px solid black">AUTHENTICATION-TYPE</th>
+                                                        <th  style="border:2px solid black">AUTHENTICATION-RESPONSE</th>
+                                                        <th style="border:2px solid black">PROFIT(Rs Per Transaction)</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="k">
+                                                </tbody>
+                                            </table>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        <div class="panel-footer">
+                            REAL TIME AUTHENTICATION TYPE SUMMARY(LAST 1 HOUR DETAILS)
+                        </div>
+                    </div>
+                </div>   
+            </div>
+
+        </div>
+                <!-- /. PAGE INNER  -->
+            </div>
+
+
+            <!-- /. PAGE WRAPPER  -->
+            <!-- /. WRAPPER  -->
+            <!-- JS Scripts-->
+            <!-- jQuery Js -->
+            <script src="" type="text/javascript"></script>
+            <script src="{% static 'fs/assets/js/jquery-1.10.2.js' %}"></script>
+            <!-- Bootstrap Js -->
+            <script src="{% static 'fs/assets/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'fs/js/numscroller-1.0.js' %}"></script>
+            <!-- Metis Menu Js -->
+            <script src="{% static 'fs/assets/js/jquery.metisMenu.js' %}"></script>
+            <!-- DATA TABLE SCRIPTS -->
+            
+            <script src="{% static 'fs/assets/js/dataTables/jquery.dataTables.js' %}"></script>
+            <script src="{% static 'fs/assets/js/dataTables/dataTables.bootstrap.js' %}"></script>
+
+            <script>
+                    $(document).load(function () {
+                        $('#db5').dataTable();
+                    });
+                </script>
+            </script>
+            <script src="{% static 'fs/js/canvasjs.min.js' %}"></script>
+            <script>
+                    $(window).load(function () {
+                        $('.preloader').fadeOut(1000); // set duration in brackets    
+                    });
+                            /* end preloader */
+                </script>
+            <!-- Custom Js -->
+            <script src="{% static 'fs/assets/js/custom-scripts.js' %}"></script>
+            
+</body>
+
+</html>
+
